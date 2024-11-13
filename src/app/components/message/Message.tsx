@@ -7,10 +7,15 @@ export interface MessageInterface {
   type: 'outgoing' | 'incoming';
 }
 
-const Message: React.FC<MessageInterface> = () => {
-  return (<StyledContainer>
-    
-  </StyledContainer>)
+const Message: React.FC<MessageInterface> = ({type, message}) => {
+  console.log('messageType', type)
+  return (
+  <StyledContainer $isOutgoing={type === 'outgoing'}>
+    {type === 'incoming' ? <Incoming>
+      {message}
+    </Incoming> : <Outgoing>{message}</Outgoing>}
+  </StyledContainer>
+  )
 }
 
 export default Message;

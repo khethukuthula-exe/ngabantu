@@ -11,7 +11,7 @@ export const Container = styled.div`
 		hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
 		hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
 	position: fixed;
-	/* top: 50%; */
+	top: 5%;
 	left: 0;
   right: 0;
   bottom: 0;
@@ -25,12 +25,16 @@ export const Container = styled.div`
 export const ChatContainer = styled.article`
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  /* align-items: flex-end; */
   gap: 10px;
-  padding: 20px;
-  width: 100%;
-  max-width: 500px;
-  margin: auto;
-  border: 1px solid #e0e0e0;
+  /* padding: 20px;  */
+  min-height: 500px;
+  box-sizing: border-box;
+  /* width: 100%; */
+  /* max-width: 500px; */
+  /* margin: auto; */
+  /* border: 1px solid #e0e0e0; */
   border-radius: 8px;
   /* background-color: #ffffff; */
 `;
@@ -70,7 +74,7 @@ export const Spacer = styled.div<{$width?: string}>`
 `
 
 export const MessageInputContainer = styled.div`
-display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 `

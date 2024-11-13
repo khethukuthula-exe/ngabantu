@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Title, SmallTitle, BodyCopy, Row, Badge, Card } from './ServiceProvider.style';
+import { Container, Title, BodyCopy, Row, Badge } from './ServiceProvider.style';
 import { UserProfileProps } from '../../types/types';
-import { StarFilled, Service, LocationPin, ChevronDown } from '../CustomIcons';
+import { StarFilled, Service } from '../CustomIcons';
 import CenteredTabs from '../tabs/Tabs';
 // import { Chatbot } from '../floating-action-button/FloatingActionButtons';
 
