@@ -6,6 +6,7 @@ import { Close, Send } from "@mui/icons-material";
 import Icon from '@mdi/react';
 import { mdiCreation } from '@mdi/js';
 import Message, {MessageInterface} from "../message/Message";
+import { sendMessage } from "../../hooks/APIHandler";
 
 const ChatUI: React.FC<{handleClose: any}> = ({handleClose}) => {
   const [messageInput, setMessageInput] = useState<string>();
@@ -22,7 +23,9 @@ const ChatUI: React.FC<{handleClose: any}> = ({handleClose}) => {
     }
   };
 
-  const handleSendMessage = (): void => {
+  const sendMessageToBot = async (message: string) => {}
+
+  const handleSendMessage = async (): Promise<void> => {
     if (messageInput) {
     const newMessage: MessageInterface = {
       message: messageInput,
@@ -30,6 +33,14 @@ const ChatUI: React.FC<{handleClose: any}> = ({handleClose}) => {
     }
     setMessages((prevMessages) => [...prevMessages, newMessage])
     setMessageInput('')
+    const response = await sendMessage(messageInput);
+    if (response) {
+    const responseFromBot: MessageInterface = {
+      message: response.message,
+      type: 'incoming',
+    }
+    setMessages((prevMessages) => [...prevMessages, responseFromBot])
+  }
     //send message to api & await response
   }
   }

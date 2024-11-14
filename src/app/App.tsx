@@ -3,8 +3,9 @@ import './App.css';
 import UserProfile from './components/user-profile/UserProfile';
 import ServiceProvider from './components/service-provider-profile/ServiceProvider';
 import ChatUI from './components/Chat/Chat';
-import Dashboard from './components/dashboard/Dashboard';
+import Dashboard, { Conversation } from './components/dashboard/Dashboard';
 import { Chatbot } from './components/floating-action-button/FloatingActionButtons';
+import { UserTypeSelectionContainer, UserTypeButton } from './components/dashboard/Dashboard.style';
 
 const UserInterface: React.FC<{showChat: boolean, handleClose: any; setShowChat: any}> = ({showChat, handleClose, setShowChat}) => {
  return <>{showChat ? <ChatUI handleClose={handleClose} /> :
@@ -27,6 +28,7 @@ const UserInterface: React.FC<{showChat: boolean, handleClose: any; setShowChat:
 
 const App = () => {
   const [showChat, setShowChat] = useState<boolean>(false);
+  const [conversations, setConversations] = React.useState<Conversation[]>([]);
   const [userType, setUserType] = useState<'service-provider'|'client' | null>(null);
   console.log('showChat', showChat);
 
@@ -41,12 +43,12 @@ const App = () => {
   return (
     <div className="App">
       {userType === null ? (
-        <div>
-          <button onClick={() => handleUserTypeSelection('client')}>Client</button>
-          <button onClick={() => handleUserTypeSelection('service-provider')}>Service Provider</button>
-        </div>
+        <UserTypeSelectionContainer>
+          <UserTypeButton onClick={() => handleUserTypeSelection('client')}>Client</UserTypeButton>
+          <UserTypeButton onClick={() => handleUserTypeSelection('service-provider')}>Service Provider</UserTypeButton>
+        </UserTypeSelectionContainer>
       ) : (
-        userType === 'service-provider' ? <Dashboard /> : <UserInterface showChat={showChat} handleClose={handleClose} setShowChat={setShowChat} />
+        userType === 'service-provider' ? <Dashboard conversations={conversations} setConversations={setConversations} /> : <UserInterface showChat={showChat} handleClose={handleClose} setShowChat={setShowChat} />
       )}
     </div>
   );
