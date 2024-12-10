@@ -35,7 +35,7 @@ const ServiceProvider: React.FC<UserProfileProps> = ({name, surname, location, r
         <Service />
         <Title style={{textAlign: 'left'}}>Service Provider</Title>
       </Row>)}
-      <img src='https://media.licdn.com/dms/image/v2/D4D03AQEn5ljn7dl3AQ/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1687524090018?e=1733356800&v=beta&t=RUiqyHZRst7k2a1rRLGRpQzHzpT6D1kgi0uBEdXUzNI' alt='avatar' className='avatar' />
+      <img src='https://images.pexels.com/photos/7689663/pexels-photo-7689663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' alt='avatar' className='avatar' />
        <div style={{display: 'flex', flexDirection: 'column', gap: '0.25rem'}}>
       <Title>{name} {surname}</Title>
       <Row style={{justifyContent: 'center'}}>

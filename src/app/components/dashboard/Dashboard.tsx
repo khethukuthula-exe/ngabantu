@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   GlobalStyle,
   PollContainer,
@@ -12,20 +12,9 @@ import {
   MainHeader,
   MainHeaderTitle,
   CloseButton,
-  PollFormLabel,
   PollFormInput,
   SectionHeading,
-  OptionsContainer,
-  OptionButton,
-  OptionItem,
-  OptionItemSpan,
-  OptionItemInput,
-  DeleteOptionButton,
-  AddOptionButton,
-  DurationInputs,
   FormActions,
-  CancelButton,
-  ContinueButton,
   Overlay,
   PollFormContainer
 } from './Dashboard.style';
@@ -34,10 +23,12 @@ import { mdiCreation } from '@mdi/js';
 import { Button, IconButton } from '@mui/material';
 import Close from '@mui/icons-material/Close';
 import Conversations from '../conversations/Conversation';
+import { addConversation } from '../../hooks/APIHandler';
 
 export interface DashboardProps {
   conversations: Conversation[];
   setConversations: any;
+  handleClose: any;
 }
 
 export type Conversation = {
@@ -46,10 +37,19 @@ export type Conversation = {
   answer: string;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({conversations, setConversations}) => {
+const Dashboard: React.FC<DashboardProps> = ({conversations, setConversations, handleClose}) => {
   const [question, setQuestion] = React.useState<string>('');
   const [answer, setAnswer] = React.useState<string>('');
-  const [showModal, setShowModal] = React.useState<boolean>(false);
+  const [showConversationForm, setshowConversationForm] = React.useState<boolean>(false);
+  const [showChatUpload, setShowChatUpload] = React.useState<boolean>(false);
+  const [activeTab, setActiveTab] = React.useState<string>('conversations');
+
+  useEffect(() => {
+    const uploadConversation = async () => {
+      await addConversation(conversations[-1]);
+    }
+    uploadConversation();
+  }, [conversations])
 
   const handleFAQSubmit = () => {
     if (question.trim() === '' || answer.trim() === '') {
@@ -65,7 +65,7 @@ const Dashboard: React.FC<DashboardProps> = ({conversations, setConversations}) 
     setConversations([...conversations, newConversation]);
     setQuestion('');
     setAnswer('');
-    setShowModal(false);
+    setshowConversationForm(false);
   };
 
   const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,12 +79,12 @@ const Dashboard: React.FC<DashboardProps> = ({conversations, setConversations}) 
   return (
     <>
       <GlobalStyle />
-      {showModal ? (
+      {showConversationForm ? (
         <Overlay>
           <PollFormContainer>
             <MainHeader>
               <MainHeaderTitle>Add Conversation</MainHeaderTitle>
-              <IconButton onClick={() => setShowModal(false)}>
+              <IconButton onClick={() => setshowConversationForm(false)}>
                 <Close style={{ color: '#000' }} />
               </IconButton>
             </MainHeader>
@@ -122,23 +122,37 @@ const Dashboard: React.FC<DashboardProps> = ({conversations, setConversations}) 
             </SidebarDescription>
             <SidebarNav>
               <ul>
-                <li className="active">Conversations</li>
-                <li>Upload Chats <NewLabel>New</NewLabel></li>
+                <li className={activeTab === 'conversations' ? "active" : ''} onClick={() => setActiveTab('conversations')}>Conversations</li>
+                <li className={activeTab === 'upload chats' ? "active" : ''} onClick={() => setActiveTab('upload chats')}>Upload Chats <NewLabel>New</NewLabel></li>
               </ul>
             </SidebarNav>
             <StepIndicator>Zenith Tech 2024</StepIndicator>
           </Sidebar>
-          <MainContent>
+          {activeTab === 'conversations' ? <MainContent>
             <MainHeader>
-              <MainHeaderTitle>Dashboard</MainHeaderTitle>
-              <CloseButton>×</CloseButton>
+              <MainHeaderTitle>Conversations</MainHeaderTitle>
+              <CloseButton onClick={handleClose}>×</CloseButton>
             </MainHeader>
             <div className="options">
-              <SectionHeading>Frequently Asked Questions</SectionHeading>
-              {conversations.length > 0 && <Conversations conversations={conversations} />}
-              <AddOptionButton onClick={() => setShowModal(true)}>+ Add FAQ</AddOptionButton>
+            {conversations.length > 0 ? <><SectionHeading>My Service FAQs</SectionHeading>
+              <Conversations conversations={conversations} /></> : <SectionHeading style={{fontWeight: 'normal', marginTop: '2rem'}}>No Conversations Yet</SectionHeading>}
+              <Button variant="contained" color="success" style={{ marginLeft: 'auto', marginTop: '2rem' }} onClick={() => setshowConversationForm(true)}>
+                 + Add Conversation
+              </Button>
             </div>
-          </MainContent>
+          </MainContent> : <MainContent>
+            <MainHeader>
+              <MainHeaderTitle>Uploaded Chats</MainHeaderTitle>
+              <CloseButton onClick={handleClose}>×</CloseButton>
+            </MainHeader>
+            <div className="options">
+            {conversations.length > 0 ? <><SectionHeading>My Service FAQs</SectionHeading>
+              <Conversations conversations={conversations} /></> : <SectionHeading style={{fontWeight: 'normal', marginTop: '2rem'}}>No Uploaded Chats</SectionHeading>}
+              <Button variant="contained" color="success" style={{ marginLeft: 'auto', marginTop: '2rem' }} onClick={() => setShowChatUpload(true)}>
+                Upload
+              </Button>
+            </div>
+          </MainContent>}
         </PollContainer>
       )}
     </>

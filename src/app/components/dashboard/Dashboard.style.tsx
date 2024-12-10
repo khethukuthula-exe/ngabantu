@@ -18,15 +18,56 @@ export const UserTypeButton = styled.button`
   transition: background-color 0.3s, color 0.3s;
 
   &:hover {
-    background-color: #1d72b8;
-    color: #fff;
-    border-color: #1d72b8;
+    background-color: #bdee63;
+    color: #000;
+    border-color: #bdee63;
   }
 
   &.active {
-    background-color: #1d72b8;
-    color: #fff;
-    border-color: #1d72b8;
+    background-color: #bdee63;
+    color: #000;
+    border-color: #bdee63;
+  }
+`;
+
+export const LoginFormContainer = styled.div`
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  margin: auto;
+  margin-top: 10%;
+`;
+
+export const LoginFormInput = styled.input`
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+`;
+
+export const LoginButton = styled.button`
+  background-color: #bdee63;
+  color: #000;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+  align-self: flex-end;
+
+  &:hover {
+    background-color: #bdee63;
   }
 `;
 
@@ -227,9 +268,9 @@ export const OptionButton = styled.button`
   cursor: pointer;
 
   &.active {
-    background-color: #1d72b8;
+    background-color: #bdee63;
     color: #fff;
-    border-color: #1d72b8;
+    border-color: #bdee63;
   }
 `;
 
@@ -257,7 +298,7 @@ export const DeleteOptionButton = styled.button`
 `;
 
 export const AddOptionButton = styled.button`
-  color: #1d72b8;
+  color: #bdee63;
   background: none;
   border: none;
   cursor: pointer;

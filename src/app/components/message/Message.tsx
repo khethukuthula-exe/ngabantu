@@ -9,6 +9,7 @@ export interface MessageInterface {
 
 const Message: React.FC<MessageInterface> = ({type, message}) => {
   console.log('messageType', type)
+  console.log('message', message)
   return (
   <StyledContainer $isOutgoing={type === 'outgoing'}>
     {type === 'incoming' ? <Incoming>

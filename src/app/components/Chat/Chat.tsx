@@ -8,7 +8,7 @@ import { mdiCreation } from '@mdi/js';
 import Message, {MessageInterface} from "../message/Message";
 import { sendMessage } from "../../hooks/APIHandler";
 
-const ChatUI: React.FC<{handleClose: any}> = ({handleClose}) => {
+const ChatUI: React.FC<{handleClose: any, serviceProvider?: string}> = ({handleClose, serviceProvider}) => {
   const [messageInput, setMessageInput] = useState<string>();
 
   const [messages, setMessages] = React.useState<MessageInterface[]>([])
@@ -23,7 +23,14 @@ const ChatUI: React.FC<{handleClose: any}> = ({handleClose}) => {
     }
   };
 
-  const sendMessageToBot = async (message: string) => {}
+  const sendMessageToBot = async (message: string): Promise<MessageInterface> => {
+    if (message.toLowerCase().includes('hi')) {
+      return {message: 'Hello, how can I help you today?', type: 'incoming'} 
+    } else {
+      const response = await sendMessage(message).catch((error) => console.error('Error sending message: ', error)); 
+      return response;
+    }
+  }
 
   const handleSendMessage = async (): Promise<void> => {
     if (messageInput) {
@@ -33,15 +40,14 @@ const ChatUI: React.FC<{handleClose: any}> = ({handleClose}) => {
     }
     setMessages((prevMessages) => [...prevMessages, newMessage])
     setMessageInput('')
-    const response = await sendMessage(messageInput);
+    const response = await sendMessageToBot(messageInput);
     if (response) {
     const responseFromBot: MessageInterface = {
-      message: response.message,
+      message: response?.message,
       type: 'incoming',
     }
     setMessages((prevMessages) => [...prevMessages, responseFromBot])
   }
-    //send message to api & await response
   }
   }
 
@@ -50,7 +56,7 @@ const ChatUI: React.FC<{handleClose: any}> = ({handleClose}) => {
   <Container>
     <Row>
       <Icon path={mdiCreation} size={1} className='icon-primary' style={{color: '#bdee63'}}/>
-      <Title style={{textAlign: 'left'}}>AI Assistant</Title>
+      <Title style={{textAlign: 'left'}}>{serviceProvider && `${serviceProvider}'s `}AI Assistant</Title>
       <Spacer $width="40%"/>
       <IconButton onClick={handleClose}>
         <Close style={{color: '#fff'}}/>
