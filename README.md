@@ -44,8 +44,8 @@ Ngabantu makes it possible for anyone to take the first step toward entrepreneur
 
 ## Technologies  
 
-- **Frontend**: React  
-- **Backend**: Node.js (if applicable)  
+- **Frontend**: React  & Typescript
+- **Backend**: [Here Technologies Dynamic Map Content API(Here Technologies Dynamic Map Content API)](https://www.here.com/why-here)
 - **Data Sources**:  
   - [HSRC (Human Sciences Research Council)](https://www.hsrc.ac.za/)  
   - [Open Data South Africa Toolkit (Open Data South Africa Toolkit)](https://opendataza.gitbook.io/toolkit)  
