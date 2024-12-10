@@ -96,7 +96,7 @@ const App = () => {
           <LoginButton onClick={handleLogin}>Login</LoginButton>
         </LoginFormContainer>
       ) : (
-        userType === 'service-provider' ? <Dashboard conversations={conversations} setConversations={setConversations} handleClose={handleDashboardClose}/> : <UserInterface showChat={showChat} handleClose={handleClose} setShowChat={setShowChat} />
+        userType === 'service-provider' ? <Dashboard conversations={[]} setConversations={setConversations} handleClose={handleDashboardClose}/> : <UserInterface showChat={showChat} handleClose={handleClose} setShowChat={setShowChat} />
       )}
     </div>
   );
