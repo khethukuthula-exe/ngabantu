@@ -35,6 +35,7 @@ export type Conversation = {
   id: number;
   question: string;
   answer: string;
+  attachment?: string;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({conversations, setConversations, handleClose}) => {
@@ -75,6 +76,8 @@ const Dashboard: React.FC<DashboardProps> = ({conversations, setConversations, h
   const handleAnswerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnswer(e.target.value);
   }
+
+  console.log('conversations', conversations);
 
   return (
     <>

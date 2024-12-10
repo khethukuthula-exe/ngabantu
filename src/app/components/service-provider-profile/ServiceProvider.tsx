@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Title, BodyCopy, Row, Badge } from './ServiceProvider.style';
+import { Container, Title, BodyCopy, Row, Badge, StyledImageWrapper } from './ServiceProvider.style';
 import { UserProfileProps } from '../../types/types';
 import { StarFilled, Service } from '../CustomIcons';
 import CenteredTabs from '../tabs/Tabs';
@@ -31,11 +31,14 @@ const ServiceProvider: React.FC<UserProfileProps> = ({name, surname, location, r
   return (
     <>
     <Container>
+      {/* <StyledImageWrapper>
       {type.toString().toLowerCase().includes('provider') && (<Row>
         <Service />
         <Title style={{textAlign: 'left'}}>Service Provider</Title>
       </Row>)}
       <img src='https://images.pexels.com/photos/7689663/pexels-photo-7689663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' alt='avatar' className='avatar' />
+      </StyledImageWrapper> */}
+      <StyledImageWrapper />
        <div style={{display: 'flex', flexDirection: 'column', gap: '0.25rem'}}>
       <Title>{name} {surname}</Title>
       <Row style={{justifyContent: 'center'}}>

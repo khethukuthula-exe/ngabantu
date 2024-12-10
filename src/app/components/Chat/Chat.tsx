@@ -8,7 +8,7 @@ import { mdiCreation } from '@mdi/js';
 import Message, {MessageInterface} from "../message/Message";
 import { sendMessage } from "../../hooks/APIHandler";
 
-const ChatUI: React.FC<{handleClose: any, serviceProvider?: string}> = ({handleClose, serviceProvider}) => {
+const ChatUI: React.FC<{handleClose: any, serviceProvider?: string, userType: string}> = ({handleClose, serviceProvider, userType}) => {
   const [messageInput, setMessageInput] = useState<string>();
 
   const [messages, setMessages] = React.useState<MessageInterface[]>([])
@@ -23,16 +23,17 @@ const ChatUI: React.FC<{handleClose: any, serviceProvider?: string}> = ({handleC
     }
   };
 
-  const sendMessageToBot = async (message: string): Promise<MessageInterface> => {
-    if (message.toLowerCase().includes('hi')) {
+  const sendMessageToBot = (message: string): MessageInterface => {
+    if (['hi', 'hello', 'hey', 'hiya', 'heya'].includes(message.toLowerCase())) {
       return {message: 'Hello, how can I help you today?', type: 'incoming'} 
     } else {
-      const response = await sendMessage(message).catch((error) => console.error('Error sending message: ', error)); 
-      return response;
+      const response = sendMessage(message.toLowerCase(), userType);
+      console.log('response',response)
+      return {message: response?.message, type: 'incoming', attachment: response?.attachment} 
     }
   }
 
-  const handleSendMessage = async (): Promise<void> => {
+  const handleSendMessage = (): void => {
     if (messageInput) {
     const newMessage: MessageInterface = {
       message: messageInput,
@@ -40,12 +41,14 @@ const ChatUI: React.FC<{handleClose: any, serviceProvider?: string}> = ({handleC
     }
     setMessages((prevMessages) => [...prevMessages, newMessage])
     setMessageInput('')
-    const response = await sendMessageToBot(messageInput);
+    const response = sendMessageToBot(messageInput);
     if (response) {
     const responseFromBot: MessageInterface = {
       message: response?.message,
       type: 'incoming',
+      attachment: response?.attachment,
     }
+    console.log('responseFromBot', responseFromBot)
     setMessages((prevMessages) => [...prevMessages, responseFromBot])
   }
   }
@@ -63,7 +66,7 @@ const ChatUI: React.FC<{handleClose: any, serviceProvider?: string}> = ({handleC
       </IconButton>
     </Row>
     <ChatContainer>
-      {messages.map((message) => <Message message={message.message} type={message.type} />)}
+      {messages.map((message) => <Message key={`${Date.now()}-${Math.random()}`} message={message.message} type={message.type} attachment={message.attachment}/>)}
     <MessageInputContainer>
       <StyledInputContainer>
         <StyledInput type='text' placeholder="Ask me anything..." value={messageInput} onChange={handleInputChange} onKeyDown={handleKeyDown}></StyledInput>

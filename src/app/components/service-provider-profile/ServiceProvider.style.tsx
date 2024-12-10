@@ -32,6 +32,19 @@ export const Container = styled.div`
 }
 `;
 
+export const StyledImageWrapper = styled.div`
+  display: flex;
+  flex: 1 1 0;
+  background-image: url('profile.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  align-items: flex-start;
+  width: 100%;
+  height: 20%;
+`;
+
+
 export const Title = styled.div`
 margin: 0;
 font-weight: 500;

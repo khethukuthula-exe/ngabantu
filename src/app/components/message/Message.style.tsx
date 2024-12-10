@@ -33,3 +33,12 @@ export const Outgoing = styled.div`
   border-radius: 6px;
   border-top-right-radius: 0;
 `
+
+export const ScrollableContainer = styled.div`
+  max-height: 300px; /* Set the desired height for the scrollable area */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+`;

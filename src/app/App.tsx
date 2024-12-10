@@ -8,8 +8,9 @@ import { Chatbot } from './components/floating-action-button/FloatingActionButto
 import { UserTypeSelectionContainer, UserTypeButton, LoginFormContainer, LoginFormInput, LoginButton } from './components/dashboard/Dashboard.style';
 import { getConversations, addConversation } from './hooks/APIHandler';
 
+
 const UserInterface: React.FC<{showChat: boolean, handleClose: any; setShowChat: any}> = ({showChat, handleClose, setShowChat}) => {
-  return <>{showChat ? <ChatUI handleClose={handleClose} /> :
+  return <>{showChat ? <ChatUI handleClose={handleClose} userType={'client'} /> :
        (<>
        <ServiceProvider
          name='Amanda'
@@ -27,14 +28,21 @@ const UserInterface: React.FC<{showChat: boolean, handleClose: any; setShowChat:
        </> 
  } 
 
+const BusinessInterface: React.FC<{showChat: boolean, handleClose: any; setShowChat: any; conversations: any; setConversations: any; handleDashboardClose: any}> = ({showChat, handleClose, setShowChat, conversations, setConversations, handleDashboardClose}) => {
+  return <>{showChat ? <ChatUI handleClose={handleClose} userType={'tutor'}/> :
+       (<>
+       <Dashboard conversations={conversations} setConversations={setConversations} handleClose={handleDashboardClose}/>
+       <div style={{position: 'fixed', bottom: '216px', right: '216px'}}><Chatbot onClick={() => setShowChat(true)} /></div>
+       </>)}
+       </> 
+} 
+
 const App = () => {
   const [showChat, setShowChat] = useState<boolean>(false);
   const [conversations, setConversations] = React.useState<Conversation[]>([]);
   const [userType, setUserType] = useState<'service-provider'|'client' | null>(null);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-
-  console.log('showChat', showChat);
 
   const handleClose = () => {
     setShowChat(false);
@@ -49,7 +57,7 @@ const App = () => {
       const response = await getConversations();
       setConversations(response);
     }
-    fetchConversations();
+    fetchConversations().catch((error) => console.error('Error fetching conversations: ', error));
   }, [])
 
 
@@ -96,7 +104,9 @@ const App = () => {
           <LoginButton onClick={handleLogin}>Login</LoginButton>
         </LoginFormContainer>
       ) : (
-        userType === 'service-provider' ? <Dashboard conversations={[]} setConversations={setConversations} handleClose={handleDashboardClose}/> : <UserInterface showChat={showChat} handleClose={handleClose} setShowChat={setShowChat} />
+        userType === 'service-provider' 
+        ? <BusinessInterface conversations={conversations} setConversations={setConversations} handleClose={handleClose} showChat={showChat} setShowChat={setShowChat} handleDashboardClose={handleDashboardClose}/> 
+        : <UserInterface showChat={showChat} handleClose={handleClose} setShowChat={setShowChat} />
       )}
     </div>
   );
